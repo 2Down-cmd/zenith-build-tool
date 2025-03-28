@@ -20,7 +20,6 @@
 # * PERFORMANCE OF THIS SOFTWARE.
 export OS=$(uname) \
 PROJLIST="$(pwd)/zenith/groups.zth"  \
-CC="gcc" \
 Define=$(export)
 
 case $OS in
@@ -30,13 +29,19 @@ case $OS in
 	;;
 "Linux")
 	echo "Expecting Linux"
-	export BEGIN_FILE="$CC *.c *.cpp *.h"
+	export CC="gcc"
+	export BEGIN_FILE="$CC $(ls | grep *.c *.cpp *.h)"
 	export OUT="-o $PROJNAME.so"
 	;;
 *)
 	echo "Unknown OS, expecting Windows."
-	export BEGIN_FILE="$CC *.c *.cpp *.h"
-	export OUT="-o $PROJNAME.dll"
-    #export OUT="-o $PROJNAME.eze"
+	# Windows -> Linux support
+	if [[ "$@" == "--winlin" ]]; then
+		export CC="gcc"
+		export BEGIN_FILE="$CC $(ls | grep *.c *.cpp *.h)"
+		export OUT="-o $PROJNAME.so"
+	else
+		cl.exe /EHsc /LD $(ls | grep *.c *.cpp *.h) /Fe$PROJNAME.dll
+	fi
 	;;
 esac
