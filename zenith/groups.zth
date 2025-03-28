@@ -1,0 +1,17 @@
+##-----------------------------------------------------------------------------
+##	GROUPS.ZTH
+##
+##	Group and Projects Configurations for all Zenith Projects
+##-----------------------------------------------------------------------------
+
+if [ "$@" == "--sourcemod" ]; then
+    if [ "$@" == "--client" ]; then
+        $Define PROJNAME=client
+        $Define PROJECTZTH="../game/client/client_hl2.zth"
+        $BEGIN_FILE -D$(cat ../game/client/client_hl2_inc.zth) $(cat $PROJECTZTH)$ $OUT
+    elif [ "$@" == "--server" ]; then
+        $Define PROJNAME=server
+        $Define PROJECTZTH="../game/server/server_hl2.zth"
+        $BEGIN_FILE -D$(cat ../game/server/server_hl2_inc.zth) $(cat $PROJECTZTH)$ $OUT
+    fi
+fi
